@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dexants-org-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/rewrite-target: /www
+spec:
+  rules:
+  - host: www.dexants.org.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dexants-httpd-service
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: beta-dexants-org-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/rewrite-target: /beta
+spec:
+  rules:
+  - host: beta.dexants.org.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dexants-httpd-service
+          servicePort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dexants-httpd-service
+  labels:
+    name: httpd-service
+spec:
+  selector:
+    app: dexants-httpd
+  ports:
+  - port: 80
+    targetPort: 80
+
