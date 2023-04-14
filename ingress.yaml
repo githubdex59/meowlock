@@ -1,6 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  name: rickroll-dexants-org-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/rewrite-target: /rickroll
+spec:
+  rules:
+  - host: rickroll.dexants.org.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dexants-httpd-service
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
   name: videos-dexants-org-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
